@@ -86,4 +86,23 @@ public class TicketDAO {
         }
         return false;
     }
+
+    public int getNbTicket(Ticket ticket){
+        Connection con = null;
+        int nbTicket = 0;
+        try {
+            con = dataBaseConfig.getConnection();
+            PreparedStatement ps = con.prepareStatement(DBConstants.GET_NBTICKET);
+            ps.setString(1, ticket.getVehicleRegNumber());
+            ResultSet resultQuery = ps.executeQuery();
+            nbTicket = resultQuery.getInt(1);
+        }catch (Exception ex){
+            logger.error("Error saving ticket info",ex);
+        }finally {
+            dataBaseConfig.closeConnection(con);
+        }
+        return nbTicket;
+    }
+
+
 }
